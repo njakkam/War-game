@@ -1,0 +1,53 @@
+import java.io.*;
+import java.lang.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Collections;
+import java.util.List;
+class Deck
+{
+	ArrayList<String> cards;
+	public Deck()
+	{
+		this.cards=new ArrayList<String>();
+	}
+	public void addToDeck(String card)
+	{
+		this.cards.add(card);
+	}
+	public ArrayList<String> retrieveCards()
+	{
+
+		return this.cards;
+	}
+	public void refresh()
+	{
+		this.cards=new ArrayList<String>();
+	}
+	public void shuffle()
+	{
+		Collections.shuffle(this.cards);
+		for(String i :this.cards)
+		{
+			System.out.println(i);
+		}
+	}
+	public List<String> getSublist(int from,int to)
+	{
+		if (from <0 || to>this.cards.size())
+		{
+			return null;
+		}
+
+		return this.cards.subList(from,to);
+	}
+	public int size()
+	{
+		for(String i :this.cards)
+		{
+			System.out.println(i);
+		}
+		return this.cards.size();
+	}
+
+}
