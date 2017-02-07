@@ -1,0 +1,30 @@
+class Player extends Deck
+{
+	public Player(List<String> cards)
+	{
+		super();
+		this.cards.addAll(cards);
+	}
+	public void addCards(ArrayList<String> cards)
+	{
+		this.cards.addAll(cards);
+	}
+	public boolean hasCards()
+	{
+		if(this.cards.size()==0)
+		{
+			return false;
+		}
+		return true;
+	}
+	public String openTopCard()
+	{
+		if (this.cards.size()==0)
+		{
+			return null;
+		}
+		String card=this.cards.remove(0);
+		return card;
+	}
+
+}
