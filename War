@@ -1,0 +1,135 @@
+public class War
+{
+	static HashMap<String ,String> map;
+	static Deck deck;
+	static Player player1;
+	static Player player2;
+
+	public static boolean checkDigit(char c)
+	{
+		if (c >= '0' && c<='9')
+		{
+			return true;
+		}
+		return false;
+	}
+	public static int getCardValue(String p1card)
+	{
+		int p1value=0;
+		char p12nd=p1card.charAt(1);
+		if(checkDigit(p12nd))
+		{
+			p1value=Integer.parseInt(p1card.substring(0,2));
+		}
+		else
+		{
+			p1value=Integer.parseInt(p1card.substring(0,1));
+		}
+		return p1value;
+
+	}
+
+	public static void game(List<String> p1cards,List<String> p2cards)
+	{
+		player1=new Player(p1cards);
+		player2=new Player(p2cards);
+
+		while(player1.hasCards() && player2.hasCards())
+		{
+			String p1card=player1.openTopCard();
+			System.out.println("Player1 draws:");
+			if (map.containsKey(p1card))
+			{
+				System.out.println(map.get(p1card));
+			}
+			else
+			{
+				System.out.println(p1card);
+			}
+			//System.out.println();
+
+			String p2card=player2.openTopCard();
+			System.out.println("Player2 draws:");
+			if (map.containsKey(p2card))
+			{
+				System.out.println(map.get(p2card));
+			}
+			else
+			{
+				System.out.println(p2card);
+			}
+			int p1value=getCardValue(p1card);
+			int p2value=getCardValue(p2card);
+			deck.addToDeck(p1card);
+			deck.addToDeck(p2card);
+			if (p1value>p2value)
+			{
+				System.out.println("Winner for this round is player1");
+				player1.addCards(deck.retrieveCards());
+				deck.refresh();
+			}
+			else if(p1value<p2value)
+			{	
+				System.out.println("Winner for this round is player2");
+				player2.addCards(deck.retrieveCards());
+				deck.refresh();
+			}
+			else
+			{
+				System.out.println("This round is a tie");
+			}
+
+		}
+		if(!player1.hasCards() && !player2.hasCards())
+		{
+			System.out.println("The game is a tie");
+		}
+		else if(!player1.hasCards())
+		{
+			System.out.println("Player2 is the winner, he still has ");
+			System.out.print(player2.size());
+			System.out.print(" cards");
+
+		}
+		else {
+			System.out.println("Player1 is the winner, he still has ");
+			System.out.print(player1.size());
+			System.out.print(" cards");
+		}
+
+	}
+
+	public static void main(String [] args)
+	{
+		map=new HashMap<String,String>();
+		String [] suits={"Clubs","Ace","Diamonds","Hearts"};
+		String [] faces={"jack","queen","king","ace"};
+		deck=new Deck();
+		for(int i=0;i<4;i++)
+		{
+			for(int j=2;j<=14;j++)
+			{
+				String card=Integer.toString(j)+" "+suits[i];
+				deck.addToDeck(card);
+				if(j>=11)
+				{
+					String face=faces[j-11];
+					String replacementString=face+" "+suits[i];
+					map.put(card,replacementString);
+				}
+			}
+		}
+		deck.shuffle();
+		
+		List<String> p1cards=deck.getSublist(0,26);
+		List<String> p2cards=deck.getSublist(26,52);
+		deck.refresh();
+		if (p1cards!=null && p2cards !=null)
+		{
+			game(p1cards,p2cards);
+		}
+
+
+
+	}
+}
